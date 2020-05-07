@@ -1,0 +1,167 @@
+
+
+C     DUCTED PROPELLER ANALYSIS PROGRAM                                 NE00 001
+C                                                                       NE00 002
+      DIMENSION B(6),BS(6),SA(6),SAS(6),P(6,6)                          NE00 003
+      DIMENSION C(6),A(25,6),AS(25,6),D(6),DS(6),SC(6),GS(6),H(6)       NE00 004
+      DIMENSION RB(25),BR(25),BTA(25),TCBLD(25),RA(25),XPRES(25),PHI(5) NE00 005
+      DIMENSION UG(25),UQD(25),UGD(25),UV(25),UCB(25),VCB(25),          NE00 006
+     1          UGP(25,25),UGA(25),GV(25),GRV(25),CPP(5,25),CPM(5,25)   NE00 007
+      DIMENSION ALPHA(25),STALL(25),JSTL(25),TALK(20)                   NE00 008
+C                                                                       NE00 009
+      COMMON MZZZ,CD,R0,R1,R2,R3,PI,B,BS,SA,SAS,P                       NE00 010
+      COMMON/NEAR1/ NRUN,NBLD,NZ,MZ,NPRES,IR,NTIME,NERR,NPAG,NPHI,NPRINTNE00 011
+      COMMON/NEAR2/ C,A,AS,D,DS,SC,GS,H                                 NE00 012
+      COMMON/NEAR3/ RRP,XP,Z,BLD,RB,BR,BTA,TCBLD,TC,RCBRP,APA,ALF,XPRES,NE00 013
+     1              RA,XCB,XR,ELCBC,RMAX,PHI,CORJ,CORCB                 NE00 014
+      COMMON/NEAR4/ UG,UQD,UGD,UV,UCB,VCB,UGP,UGA,GV,GAM,GRV,CPP,CPM    NE00 015
+      COMMON/NEAR5/ ARJ,ARJP,EPS,RAD,CL,ALPHA,STALL,JSTL,TALK           NE00 016
+C                                                                       NE00 017
+  120 FORMAT(2I5,7F10,6)                                                NE00 018
+  997 FORMAT (///10X,42HPR0GRAM DID NOT CONVERGE ON INFLOW PROFILE///)  NE00 019 
+  998 FORMAT (///10X,28HERROR - EXECUTION TERMINATED///)                NE00 020
+C                                                                       NE00 021
+C     INITIALIZATION OF SUBROUTINES                                     NE00 022
+C                                                                       NE00 023
+      DUM=0•0                                                           NE00 024
+      MZZZ=0                                                            NE00 025
+      CALL ELLIPS (DUM,DUM,DUM)                                         NE00 026
+      CALL LAMBDA (DUM,DUM,DUM)                                         NE00 027
+      CALL PKL (DUM,P)                                                  NE00 028
+      CALL CLALF (0)                                                    NE00 029
+      MZZZ=1                                                            NE00 030
+C                                                                       NE00 031
+      PI=3.1415926                                                      NE00 032
+      RAD=180./PI                                                       NE00 033
+C                                                                       NE00 034
+   29 NERR=0                                                            NE00 035
+      CALL INPUT                                                        NE00 036
+      IF (NERR) 28,28,999                                               NE00 037
+C                                                                       NE00 038
+   28 CSALF=COS(ALF/RAD)                                                NE00 039
+      ARJV=ARJ                                                          NE00 040
+      ARJVP=ARJP                                                        NE00 041
+      ARJ=ARJ*CSALF                                                     NE00 042
+      ARJP=ARJP*CSALF                                                   NE00 043
+      DO 30 K=l,NZ                                                      NE00 044
+   30 UV(K)= 2.0                                                        NE00 045
+      NTIME=1                                                           NE00 046
+      CORCB=2.0                                                         NE00 047
+   31 DO 32 K=l,NZ                                                      NE00 048
+      BPI=RB(K)/ARJP/UV(K)                                              NE00 049
+      ABPI=ATAN (BPI)                                                   NE00 050
+      ALPHA(K)=(ABPI-BTA(K))*RAD                                        NE00 051
+      BPI=BPI*BPI                                                       NE00 052
+      BPI=SQRT (BPI+1•0)                                                NE00 053
+      J=K                                                               NE00 054
+      CALL CLALF (J)                                                    NE00 055
+      IF (NERR-l) 25,999,999                                            NE00 056
+   25 CONTINUE                                                          NE00 057
+      GRV(K)=0.5*CL*BR(K)*UV(K)*BPI                                     NE00 058
+   32 CONTINUE                                                          NE00 059
+   33 GV(NZ)=GRV(NZ)*BLD/PI/ARJP+1•0                                    NE00 060
+      AGV= 1.                                                           NE00 061
+      IF(GV(NZ))133,233,233                                             NE00 062
+  133 GV(NZ)=—GV(NZ)                                                    NE00 063
+      AGV=-1.                                                           NE00 064
+      GV(NZ)=AGV*SORT (GV(NZ))-1.                                       NE00 065
+      AGV* 1.                                                           NE00 066
+      SGV=1.0                                                           NE00 067
+      DO 35 J=1,MZ                                                      NE00 068
+      K=NZ-J                                                            NE00 069
+      L=K+1                                                             NE00 070
+      SGV=SGV*GV(L)                                                     NE00 071
+      SGV2=SGV*SGV                                                      NE00 072
+      GRVD=GRV(K)—GRV(L)                                                NE00 073
+      GRVD=GRVD*BLD/PI/ARJP                                             NE00 074
+      DUM=SGV2+GRVD                                                     NE00 075
+      AGV=1•0                                                           NE00 076
+      IF (DUM.LT.0.0) AGV=—1.0                                          NE00 077
+      GV(K)=AGV*SQRT(AGV*DUM)-SGV                                       NE00 078
+   35 CONTINUE                                                          NE00 079
+      DO 38 N=1,6                                                       NE00 080
+      SA(N)=0•                                                          NE00 081
+   38 SAS(N)=0•                                                         NE00 082
+      DO 40 N=1,6                                                       NE00 083
+      DO 39 M=l,MZ                                                      NE00 084
+      SA(N)=SA(N)+A(M,N)*GV(M)                                          NE00 085
+   39 SAS(N)=SAS(N)+AS(M,N)*GV(M)                                       NE00 086
+   40 CONTINUE                                                          NE00 087
+C                                                                       NE00 088
+      DO 41 N=1,6                                                       NE00 089
+      SA(N)=SA(N) + D(N)*CORCB                                          NE00 090
+   41 SAS(N)=SAS(N) + DS(N)*CORCB                                       NE00 091
+      GAM=GV(NZ)                                                        NE00 092
+   97 CALL CNCOEF (GAM,C)                                               NE00 093
+      DO 141 N=1,6                                                      NE00 094
+      SA(N)=SA(N) - D(N)*CORCB                                          NE00 095
+  141 SAS(N)=SAS(N) - DS(N)*CORCB                                       NE00 096
+C                                                                       NE00 097
+C     COMPUTE CORRECTION FOR LOW ADVANCE RATIOS (CORJ)                  NE00 098
+C                                                                       NE00 099
+      DUM-XPRES(1)                                                      NE00 100
+      DUMM=RA(1)                                                        NE00 101
+      XPRES(1)=XP                                                       NE00 102
+      RA(1)=1.O                                                         NE00 103
+      CALL GAMCYL (CD,XP,1,RB,UG,1,XPRES,UGP,RRP,RA)                    NE00 104
+      IRC=-1                                                            NE00 105
+      CALL VTXRNG (CD,XP,1,RC,RB,C,UGD,XPRES,P)                         NE00 106
+      CORJ=UGD(1)*GAM + UGP(1,1)*GAM + 1.0                              NE00 107
+      IF (CORJ.LT.1.0) CORJ=1.0                                         NE00 108
+C                                                                       NE00 109
+C     COMPUTE CORRECTION FOR CENTERBODY INDUCED VELOCITIES (CORCB)      NE00 110
+C                                                                       NE00 111
+      RA(1)=0.0                                                         NE00 112
+      CALL GAMCYL (CD,XP,1,RA,UG,0,XPRES,UGP,RRP,RA)                    NE00 113
+      IRC=1                                                             NE00 114
+      CALL VTXRNG (CD,XP.1.RC.RA.C.UGD.XPRES.P)                         NE00 115
+      CORCB=UGD(1)*GAM+UGP(1,1)*GAM+1.0                                 NE00 116
+      DO 142 J=1,MZ                                                     NE00 117
+  142 CORCB=CORCB+GV(J)/2.0                                             NE00 118
+      IF (CORCB.LT.1.0) C0RCB=1.0                                       NE00 119
+      XPRES(1)=DUM                                                      NE00 120
+      RA(1)=DUMM                                                        NE00 121
+C                                                                       NE00 122
+      CDP=CD*RRP                                                        NE00 123
+      CALL VTXRNG (CDP,XP,NZ,RB,C,UGD,XPRES,P)                          NE00 124
+   98 IRT=0                                                             NE00 125
+      SUMG=0.                                                           NE00 126
+      DO 42 J=1,MZ                                                      NE00 127
+   42 SUMG=SUMG+GV(J)                                                   NE00 128
+      DO 45 J=l,MZ                                                      NE00 129
+      UNV=1.*(UG(J)*GAM)+(UGD(J)*GAM)+UQD(J)*CORJ+UCB(J)+CORCB+SUMG/2.0 NE00 130
+      SUMG=SUMG—GV(J)                                                   NE00 131
+      DELV=UV(J)—UNV                                                    NE00 132
+      DELV=DELV/UNV                                                     NE00 133
+      DELV-ABS (DELV)                                                   NE00 134
+      IF(DELV-EPS) 45,45,44                                             NE00 135 
+   44 IRT=IRT+1                                                         NE00 136
+   45 UV(J)=(UV(J)+UNV)/2.                                              NE00 137
+      J=NZ                                                              NE00 138
+      UNV=1.+(UG(J)*GAM)+(UGD(J)*GAM)+UQD(J)*C0RJ+UCB(J)*CORCB          NE00 139
+      DELV=UV(NZ)-UNV                                                   NE00 140
+      DELV=DELV/UNV                                                     NE00 141
+      DELV=ABS (OELV)                                                   NE00 142
+      UV(NZ)=(UV(NZ)+UNV)/2.                                            NE00 143
+      IF(DELV-EPS) 46,46,47                                             NE00 144
+   47 IRT=IRT+1                                                         NE00 145
+   46 IF(IRT) 50,60,50                                                  NE00 146
+   50 NTIME=NTIME+1                                                     NE00 147
+      IF (NTIME-51) 31,60,60                                            NE00 148
+   60 CALL OUTPUT                                                       NE00 149
+      IF (NTIME-51) 68,69,68                                            NE00 150
+   69 NERR=0                                                            NE00 151
+      GO TO 31                                                          NE00 152
+   68 IF (NERR) 70,70,996                                               NE00 153
+   70 READ (5.120) NRUN,NPHI,ARJ,ALF,(PHI(J),J=1,5)                     NE00 154
+      ARJP=ARJ/PI/RRP                                                   NE00 155
+      NPAG=0                                                            NE00 156
+      IF (NPHI.GT.5) NPHI=5                                             NE00 157
+      IF (NRUN) 28,29,28                                                NE00 158
+C                                                                       NE00 159
+C     ERROR STOP                                                        NE00 160
+  996 WRITE (6.997)                                                     NE00 161
+  999 WRITE (6.998)                                                     NE00 162
+      STOP                                                              NE00 163
+C                                                                       NE00 164
+      END                                                               NE00 165
