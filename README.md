@@ -12,20 +12,18 @@ NIELSEN ENGINEERING & RESEARCH, INC.
 Mountain View, Calif.
 for the Ames Research Center
 
-It was initially issued by NIELSEN ENGINEERING & RESEARCH, INC. as Report No. NEAR TR 16.
+Report CR-1495 describes a FORTRAN program that was run on an [IBM 7094](https://en.wikipedia.org/wiki/IBM_7090) mainframe computer to predict ducted fan performance.
 
-Report CR-1495 describes a FORTRAN program that ran on an [IBM 7094](https://en.wikipedia.org/wiki/IBM_7090) mainframe computer.
+The preceeding report, CR-1494, describes the theory and mathematics underpinning the computer program.
 
-The preceeding report CR-1494 describes the theory behind the program calculations.
+Internally referenced as NEAR TR 15 & NEAR TR 16 these two reports are of historical interest as the type and quality of work NIELSEN ENGINEERING AND RESEACH INC delivered in it's early years for NASA.
 
-As such the two reports combine to provide both the theory and programming to predict fan performance. Internally referenced as NEAR TR 15 & NEAR TR 16 these reports are also of historical interest as the capabilities of NIELSEN ENGINEERING AND RESEACH INC in it's early years.
-
-Today the Hathi Trust Digital Library and NASA NTRS archives offer public access to these reports:
+Today both NASA NTRS archives and the Hathi Trust Digital Library offer public access to the reports:
 
 * the calculation theory report CR-1494 - link [NASA NTRS](http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700006092%5F1970006092.pdf) & [HTDL](https://catalog.hathitrust.org/Record/011430639)
 and
 * the program report CR-1495 - link [NASA NTRS](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700012375.pdf) & [HTDL](https://catalog.hathitrust.org/Record/011430641)
 
-As such both publications are now in the public domain thanks to NASA NTRS, the University of [University of Illinois Urbana Champaign](https://illinois.edu/) and the [Hathi Trust Digital Library](https://www.hathitrust.org/).
+These links are to scanned images of the original printed reports. Made available thanks to NASA NTRS, the University of [University of Illinois Urbana Champaign](https://illinois.edu/) in conjunction with [Google Books](https://books.google.co.uk/books?id=T3jQ-9s-IbAC) and the [Hathi Trust Digital Library](https://www.hathitrust.org/).
 
 This project revists the program code I had access to in 1975-6 when I worked to port it onto an [Elliott/ICL 4120](https://www.ithistory.org/db/hardware/elliott-brothers-london-ltd/elliott-4120) computer it's also a good example of theory with program documentation.
