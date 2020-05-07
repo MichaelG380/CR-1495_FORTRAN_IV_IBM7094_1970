@@ -22,10 +22,10 @@ As such the two reports combine to provide both the theory and programming to pr
 
 Today the Hathi Trust Digital Library and NASA NTRS archives offer public access to these reports:
 
-* the calculation theory [CR-1494](https://catalog.hathitrust.org/Record/011430639) & [NASA NTRS](http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700006092%5F1970006092.pdf)
+* the calculation theory report CR-1494 - link [NASA NTRS](http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700006092%5F1970006092.pdf) & [HTDL](https://catalog.hathitrust.org/Record/011430639)
 and
-* the program source code [CR-1495](https://catalog.hathitrust.org/Record/011430641) & [NASA NTRS](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700012375.pdf)
+* the program report CR-1495 - link [NASA NTRS](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19700012375.pdf) & [HTDL](https://catalog.hathitrust.org/Record/011430641)
 
-As such both publications are now in the public domain thanks to NASA, the University of [University of Illinois Urbana Champaign](https://illinois.edu/) and the [Hathi Trust Digital Library](https://www.hathitrust.org/).
+As such both publications are now in the public domain thanks to NASA NTRS, the University of [University of Illinois Urbana Champaign](https://illinois.edu/) and the [Hathi Trust Digital Library](https://www.hathitrust.org/).
 
-This project revists the program code I had access to in 1975-6 when I worked to port it onto an [Elliott 4120](https://www.ithistory.org/db/hardware/elliott-brothers-london-ltd/elliott-4120) computer 
+This project revists the program code I had access to in 1975-6 when I worked to port it onto an [Elliott/ICL 4120](https://www.ithistory.org/db/hardware/elliott-brothers-london-ltd/elliott-4120) computer it's also a good example of theory with program documentation.
